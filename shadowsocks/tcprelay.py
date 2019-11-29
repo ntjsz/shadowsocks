@@ -553,7 +553,7 @@ class TCPRelayHandler(object):
             return
         self._update_activity(len(data))
         if not is_local:
-            self.testlog()
+            self.testlog("decode")
             data = self._encryptor.decrypt(data)
             if not data:
                 return
