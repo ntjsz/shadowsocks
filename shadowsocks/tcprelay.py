@@ -553,6 +553,7 @@ class TCPRelayHandler(object):
             return
         self._update_activity(len(data))
         if not is_local:
+            self.testlog()
             data = self._encryptor.decrypt(data)
             if not data:
                 return
@@ -690,8 +691,8 @@ class TCPRelayHandler(object):
         self._server.remove_handler(self)
 
     def testlog(self, tag):
-        logging.info('%d - %s: stage - %d, isLocal - %r, local - %r , remote - %r' %
-                     (id(self), tag, self._stage, self._is_local,
+        logging.info('%d - %s: stage - %d, local - %r , remote - %r' %
+                     (id(self), tag, self._stage,
                       self._local_sock, self._remote_sock))
 
 
