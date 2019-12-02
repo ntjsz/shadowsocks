@@ -73,7 +73,7 @@ def EVP_BytesToKey(password, key_len, iv_len):
     return key, iv
 
 def ByteToHex( bins ):
-    return ''.join( [ "%02X" % int(x) for x in bins ] ).strip()
+    return ''.join('{:02x}'.format(x) for x in bins)
 
 
 class Encryptor(object):
