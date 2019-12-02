@@ -62,6 +62,7 @@ def EVP_BytesToKey(password, key_len, iv_len):
         md5.update(data)
         m.append(md5.digest())
         i += 1
+    logging.info('m0 - %s' % str(type(m[0])))
     ms = b''.join(m)
     key = ms[:key_len]
     iv = ms[key_len:key_len + iv_len]
