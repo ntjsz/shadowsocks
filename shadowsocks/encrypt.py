@@ -67,10 +67,8 @@ def EVP_BytesToKey(password, key_len, iv_len):
     key = ms[:key_len]
     iv = ms[key_len:key_len + iv_len]
 
-    logging.info('key_len - %s' % len(key))
-    logging.info('iv_len - %s' % len(key))
-    logging.info('key - %s' % ByteToHex(key))
-    logging.info('iv - %s' % ByteToHex(key))
+    logging.info('key - %s' % key)
+    logging.info('iv - %s' % iv)
 
     cached_keys[cached_key] = (key, iv)
     return key, iv
@@ -245,6 +243,7 @@ def test_encrypt_all_m():
 
 
 if __name__ == '__main__':
-    test_encrypt_all()
-    test_encryptor()
-    test_encrypt_all_m()
+    #test_encrypt_all()
+    #test_encryptor()
+    #test_encrypt_all_m()
+    EVP_BytesToKey(common.to_bytes('123'), 32, 16)
