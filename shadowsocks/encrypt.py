@@ -73,9 +73,6 @@ def EVP_BytesToKey(password, key_len, iv_len):
     cached_keys[cached_key] = (key, iv)
     return key, iv
 
-def ByteToHex( bins ):
-    return binascii.hexlify(bins)
-
 
 class Encryptor(object):
     def __init__(self, password, method):
@@ -136,10 +133,11 @@ class Encryptor(object):
             self.decipher_iv = decipher_iv
             self.decipher = self.get_cipher(self.password, self.method, 0,
                                             iv=decipher_iv)
+            logging.info("first data - %r", buf)
+            logging.info("decipher_iv - %r", decipher_iv)
             buf = buf[decipher_iv_len:]
             if len(buf) == 0:
                 return buf
-        logging.info("data - %r", buf)
         return self.decipher.update(buf)
 
 
