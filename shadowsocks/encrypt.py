@@ -67,8 +67,8 @@ def EVP_BytesToKey(password, key_len, iv_len):
     key = ms[:key_len]
     iv = ms[key_len:key_len + iv_len]
 
-    logging.info('key - %s' % key)
-    logging.info('iv - %s' % iv)
+    logging.info('key - %r' % key)
+    logging.info('iv - %r' % iv)
 
     cached_keys[cached_key] = (key, iv)
     return key, iv
