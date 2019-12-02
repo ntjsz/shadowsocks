@@ -21,6 +21,7 @@ import os
 import sys
 import hashlib
 import logging
+import binascii
 
 from shadowsocks import common
 from shadowsocks.crypto import rc4_md5, openssl, sodium, table
@@ -62,19 +63,18 @@ def EVP_BytesToKey(password, key_len, iv_len):
         md5.update(data)
         m.append(md5.digest())
         i += 1
-    logging.info('m0 - %s' % str(type(m[0])))
     ms = b''.join(m)
     key = ms[:key_len]
     iv = ms[key_len:key_len + iv_len]
 
-    logging.info('key - %s' % str(type(key)))
-    logging.info('iv - %s' % str(type(key)))
+    logging.info('key - %s' % ByteToHex(key))
+    logging.info('iv - %s' % ByteToHex(key))
 
     cached_keys[cached_key] = (key, iv)
     return key, iv
 
 def ByteToHex( bins ):
-    return ''.join('{:02x}'.format(x) for x in bins)
+    return binascii.hexlify(bins)
 
 
 class Encryptor(object):
