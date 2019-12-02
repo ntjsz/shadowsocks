@@ -67,6 +67,8 @@ def EVP_BytesToKey(password, key_len, iv_len):
     key = ms[:key_len]
     iv = ms[key_len:key_len + iv_len]
 
+    logging.info('key_len - %s' % len(key))
+    logging.info('iv_len - %s' % len(key))
     logging.info('key - %s' % ByteToHex(key))
     logging.info('iv - %s' % ByteToHex(key))
 
