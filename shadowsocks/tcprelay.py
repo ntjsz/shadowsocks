@@ -320,7 +320,7 @@ class TCPRelayHandler(object):
         if header_result is None:
             raise Exception('can not parse header')
         addrtype, remote_addr, remote_port, header_length = header_result
-        self.testlog('addr')
+        #self.testlog('addr')
         logging.info('connecting %s:%d from %s:%d' %
                      (common.to_str(remote_addr), remote_port,
                       self._client_address[0], self._client_address[1]))
@@ -521,7 +521,6 @@ class TCPRelayHandler(object):
             raise NoAcceptableMethods
 
     def _handle_stage_init(self, data):
-        self.testlog('init')
         try:
             self._check_auth_method(data)
         except BadSocksHeader:
