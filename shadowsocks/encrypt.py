@@ -66,11 +66,14 @@ def EVP_BytesToKey(password, key_len, iv_len):
     key = ms[:key_len]
     iv = ms[key_len:key_len + iv_len]
 
-    logging.info('key - %r' % key)
-    logging.info('iv - %r' % iv)
+    logging.info('key - %s' % ByteToHex(key))
+    logging.info('iv - %s' % ByteToHex(iv))
 
     cached_keys[cached_key] = (key, iv)
     return key, iv
+
+def ByteToHex( bins ):
+    return ''.join( [ "%02X" % x for x in bins ] ).strip()
 
 
 class Encryptor(object):
