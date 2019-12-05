@@ -522,6 +522,7 @@ class TCPRelayHandler(object):
 
     def _handle_stage_init(self, data):
         try:
+            logging.info("init - %r" % data)
             self._check_auth_method(data)
         except BadSocksHeader:
             self.destroy()
@@ -552,7 +553,7 @@ class TCPRelayHandler(object):
             return
         self._update_activity(len(data))
         if not is_local:
-            self.testlog("decode")
+            #self.testlog("decode")
             data = self._encryptor.decrypt(data)
             if not data:
                 return
