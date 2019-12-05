@@ -321,9 +321,9 @@ class TCPRelayHandler(object):
             raise Exception('can not parse header')
         addrtype, remote_addr, remote_port, header_length = header_result
         logging.info('addrtype:%r, remote_addr:%r, remote_port:%r, header_length:%r' %
-                    addrtype, remote_addr, remote_port, header_length)
+                    (addrtype, remote_addr, remote_port, header_length))
         logging.info('_ota_enable:%r, _ota_enable_session:%r' % 
-                    self._ota_enable, self._ota_enable_session)
+                    (self._ota_enable, self._ota_enable_session))
         logging.info('connecting %s:%d from %s:%d' %
                      (common.to_str(remote_addr), remote_port,
                       self._client_address[0], self._client_address[1]))
