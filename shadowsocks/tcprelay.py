@@ -320,10 +320,14 @@ class TCPRelayHandler(object):
         if header_result is None:
             raise Exception('can not parse header')
         addrtype, remote_addr, remote_port, header_length = header_result
-        #self.testlog('addr')
+        logging.info('addrtype:%r, remote_addr:%r, remote_port:%r, header_length:%r' %
+                    addrtype, remote_addr, remote_port, header_length)
+        logging.info('_ota_enable:%r, _ota_enable_session:%r' % 
+                    self._ota_enable, self._ota_enable_session)
         logging.info('connecting %s:%d from %s:%d' %
                      (common.to_str(remote_addr), remote_port,
                       self._client_address[0], self._client_address[1]))
+        logging.info("addr:%r", data)
         if self._is_local is False:
             # spec https://shadowsocks.org/en/spec/one-time-auth.html
             self._ota_enable_session = addrtype & ADDRTYPE_AUTH
@@ -371,6 +375,7 @@ class TCPRelayHandler(object):
                 self._ota_chunk_data(data,
                                      self._data_to_write_to_remote.append)
             elif len(data) > header_length:
+                logging.info('strip')
                 self._data_to_write_to_remote.append(data[header_length:])
             # notice here may go into _handle_dns_resolved directly
             self._dns_resolver.resolve(remote_addr,
@@ -491,8 +496,10 @@ class TCPRelayHandler(object):
             self._write_to_sock(data, self._remote_sock)
         else:
             if self._ota_enable_session:
+                logging.info("ota enable")
                 self._ota_chunk_data(data, self._write_to_sock_remote)
             else:
+                logging.info("stream - %r" % data)
                 self._write_to_sock(data, self._remote_sock)
         return
 
