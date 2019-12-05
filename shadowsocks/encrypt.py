@@ -133,7 +133,7 @@ class Encryptor(object):
             self.decipher_iv = decipher_iv
             self.decipher = self.get_cipher(self.password, self.method, 0,
                                             iv=decipher_iv)
-            logging.info("first data - %r", buf)
+            #logging.info("first data - %r", buf)
             logging.info("decipher_iv - %r", decipher_iv)
             buf = buf[decipher_iv_len:]
             if len(buf) == 0:
