@@ -25,6 +25,7 @@ import struct
 import logging
 import traceback
 import random
+import pdb
 
 from shadowsocks import encrypt, eventloop, shell, common
 from shadowsocks.common import parse_header, onetimeauth_verify, \
@@ -329,7 +330,7 @@ class TCPRelayHandler(object):
         logging.info('connecting %s:%d from %s:%d' %
                      (common.to_str(remote_addr), remote_port,
                       self._client_address[0], self._client_address[1]))
-        logging.info("addr:%r", data)
+        logging.info("data read after decode - addr:%r", data)
         if self._is_local is False:     # 本分支下都是false
             # spec https://shadowsocks.org/en/spec/one-time-auth.html
             self._ota_enable_session = addrtype & ADDRTYPE_AUTH
@@ -377,7 +378,7 @@ class TCPRelayHandler(object):
                 self._ota_chunk_data(data,
                                      self._data_to_write_to_remote.append)
             elif len(data) > header_length:
-                logging.info('strip')
+                pdb.set_trace()
                 self._data_to_write_to_remote.append(data[header_length:])
             # notice here may go into _handle_dns_resolved directly
             self._dns_resolver.resolve(remote_addr,
@@ -389,6 +390,7 @@ class TCPRelayHandler(object):
         if len(addrs) == 0:
             raise Exception("getaddrinfo failed for %s:%d" % (ip, port))
         af, socktype, proto, canonname, sa = addrs[0]
+        pdb.set_trace()
         if self._forbidden_iplist:
             if common.to_str(sa[0]) in self._forbidden_iplist:
                 raise Exception('IP %s is in forbidden list, reject' %
