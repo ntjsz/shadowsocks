@@ -212,6 +212,10 @@ class TCPRelayHandler(object):
         try:
             l = len(data)
             s = sock.send(data)
+
+            if sock == self._local_sock:
+                logging.info("send to local: %r" % data[:s])
+
             if s < l:
                 data = data[s:]
                 uncomplete = True
@@ -322,13 +326,11 @@ class TCPRelayHandler(object):
         addrtype, remote_addr, remote_port, header_length = header_result
         logging.info('addrtype:%r, remote_addr:%r, remote_port:%r, header_length:%r' %
                     (addrtype, remote_addr, remote_port, header_length))
-        logging.info('_ota_enable:%r, _ota_enable_session:%r' % 
-                    (self._ota_enable, self._ota_enable_session))
         logging.info('connecting %s:%d from %s:%d' %
                      (common.to_str(remote_addr), remote_port,
                       self._client_address[0], self._client_address[1]))
         logging.info("addr:%r", data)
-        if self._is_local is False:
+        if self._is_local is False:     # 本分支下都是false
             # spec https://shadowsocks.org/en/spec/one-time-auth.html
             self._ota_enable_session = addrtype & ADDRTYPE_AUTH
             if self._ota_enable and not self._ota_enable_session:
@@ -589,6 +591,9 @@ class TCPRelayHandler(object):
             self.destroy()
             return
         self._update_activity(len(data))
+
+        logging.info("data to send/before encryot:%r" % data)
+
         if self._is_local:
             data = self._encryptor.decrypt(data)
         else:
