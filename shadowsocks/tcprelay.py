@@ -378,7 +378,7 @@ class TCPRelayHandler(object):
                 self._ota_chunk_data(data,
                                      self._data_to_write_to_remote.append)
             elif len(data) > header_length:
-                pdb.set_trace()
+                #pdb.set_trace()
                 self._data_to_write_to_remote.append(data[header_length:])
             # notice here may go into _handle_dns_resolved directly
             self._dns_resolver.resolve(remote_addr,
@@ -390,7 +390,7 @@ class TCPRelayHandler(object):
         if len(addrs) == 0:
             raise Exception("getaddrinfo failed for %s:%d" % (ip, port))
         af, socktype, proto, canonname, sa = addrs[0]
-        pdb.set_trace()
+        #pdb.set_trace()
         if self._forbidden_iplist:
             if common.to_str(sa[0]) in self._forbidden_iplist:
                 raise Exception('IP %s is in forbidden list, reject' %
