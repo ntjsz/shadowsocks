@@ -118,6 +118,18 @@ class Encryptor(object):
             self.iv_sent = True
             return self.cipher_iv + self.cipher.update(buf)
 
+    def read_decipher_iv(self, buf):
+        if len(buf) == 0:
+            return False
+        if self.decipher is None:
+            decipher_iv_len = self._method_info[1]
+            decipher_iv = buf[:decipher_iv_len]
+            self.decipher_iv = decipher_iv
+            self.decipher = self.get_cipher(self.password, self.method, 0,
+                                            iv=decipher_iv)
+            return True
+        return False
+
     def decrypt(self, buf):
         if len(buf) == 0:
             return buf
