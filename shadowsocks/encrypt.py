@@ -112,6 +112,7 @@ class Encryptor(object):
         if op == 1:
             # this iv is for cipher not decipher
             self.cipher_iv = iv[:m[1]]
+            import pdb; pdb.set_trace()
         return m[2](method, key, iv, op)
 
     def encrypt(self, buf):
