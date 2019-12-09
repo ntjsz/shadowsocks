@@ -52,7 +52,6 @@ def EVP_BytesToKey(password, key_len, iv_len):
     r = cached_keys.get(cached_key, None)
     if r:
         return r
-    logging.info('cached_key - %s' % cached_key)
     m = []
     i = 0
     while len(b''.join(m)) < (key_len + iv_len):
@@ -122,6 +121,7 @@ class Encryptor(object):
             return self.cipher.update(buf)
         else:
             self.iv_sent = True
+            logging.info("self.cipher_iv:%r" % self.cipher_iv)
             return self.cipher_iv + self.cipher.update(buf)
 
     def decrypt(self, buf):
@@ -133,8 +133,8 @@ class Encryptor(object):
             self.decipher_iv = decipher_iv
             self.decipher = self.get_cipher(self.password, self.method, 0,
                                             iv=decipher_iv)
-            logging.info("first data - %r", buf)
-            logging.info("decipher_iv - %r", decipher_iv)
+            #logging.info("first data - %r", buf)
+            #logging.info("decipher_iv - %r", decipher_iv)
             buf = buf[decipher_iv_len:]
             if len(buf) == 0:
                 return buf

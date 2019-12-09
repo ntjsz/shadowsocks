@@ -213,10 +213,6 @@ class TCPRelayHandler(object):
         try:
             l = len(data)
             s = sock.send(data)
-
-            if sock == self._local_sock:
-                logging.info("send to local: %r" % data[:s])
-
             if s < l:
                 data = data[s:]
                 uncomplete = True
@@ -325,12 +321,12 @@ class TCPRelayHandler(object):
         if header_result is None:
             raise Exception('can not parse header')
         addrtype, remote_addr, remote_port, header_length = header_result
-        logging.info('addrtype:%r, remote_addr:%r, remote_port:%r, header_length:%r' %
+"""         logging.info('addrtype:%r, remote_addr:%r, remote_port:%r, header_length:%r' %
                     (addrtype, remote_addr, remote_port, header_length))
         logging.info('connecting %s:%d from %s:%d' %
                      (common.to_str(remote_addr), remote_port,
                       self._client_address[0], self._client_address[1]))
-        logging.info("data read after decode - addr:%r", data)
+        logging.info("data read after decode - addr:%r", data) """
         if self._is_local is False:     # 本分支下都是false
             # spec https://shadowsocks.org/en/spec/one-time-auth.html
             self._ota_enable_session = addrtype & ADDRTYPE_AUTH
@@ -500,10 +496,9 @@ class TCPRelayHandler(object):
             self._write_to_sock(data, self._remote_sock)
         else:
             if self._ota_enable_session:
-                logging.info("ota enable")
                 self._ota_chunk_data(data, self._write_to_sock_remote)
             else:
-                logging.info("stream - %r" % data)
+                #logging.info("stream - %r" % data)
                 self._write_to_sock(data, self._remote_sock)
         return
 
@@ -533,7 +528,6 @@ class TCPRelayHandler(object):
 
     def _handle_stage_init(self, data):
         try:
-            logging.info("init - %r" % data)
             self._check_auth_method(data)
         except BadSocksHeader:
             self.destroy()
@@ -594,7 +588,7 @@ class TCPRelayHandler(object):
             return
         self._update_activity(len(data))
 
-        logging.info("data to send/before encryot:%r" % data)
+        #logging.info("data to send/before encryot:%r" % data)
 
         if self._is_local:
             data = self._encryptor.decrypt(data)
