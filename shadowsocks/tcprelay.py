@@ -582,13 +582,11 @@ class TCPRelayHandler(object):
             self.destroy()
             return
         self._update_activity(len(data))
-        logging.info("before:%r" % data)
         if self._is_local:
             data = self._encryptor.decrypt(data)
         else:
             data = self._encryptor.encrypt(data)
         try:
-            logging.info("after:%r" % data)
             self._write_to_sock(data, self._local_sock)
         except Exception as e:
             shell.print_exception(e)
