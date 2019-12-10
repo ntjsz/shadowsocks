@@ -551,10 +551,9 @@ class TCPRelayHandler(object):
             return
         self._update_activity(len(data))
         if not is_local:
-            init_decipher_iv = self._encryptor.read_decipher_iv(data)
+            init_decipher_iv, data = self._encryptor.read_decipher_iv(data)
             if init_decipher_iv:
-                self._write_to_sock_remote(b'accepted')
-                return
+                self._write_to_sock_remote(b'ok')
 
             data = self._encryptor.decrypt(data)
             if not data:
