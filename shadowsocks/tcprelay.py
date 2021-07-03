@@ -553,7 +553,7 @@ class TCPRelayHandler(object):
         if not is_local:
             init_decipher_iv, data = self._encryptor.read_decipher_iv(data)
             if init_decipher_iv:
-                self._write_to_sock(b'ok', self._local_sock)
+                self._write_to_sock(b'yFN8BqMWiVoaVKjai8gM', self._local_sock)
             data = self._encryptor.decrypt(data)
             if not data:
                 return
